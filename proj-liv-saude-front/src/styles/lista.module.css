@@ -1,0 +1,27 @@
+.containerList {
+  display: flex;
+  justify-content: start;
+  margin-top: 5%;
+}
+
+.list {
+  justify-content: start;
+  width: 23%;
+  padding: 2%;
+  flex-wrap: wrap;
+  background-color: rgb(212, 212, 212);
+  border: 2px solid rgb(212, 212, 212);
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.navbar {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+input {
+  width: 5em;
+}

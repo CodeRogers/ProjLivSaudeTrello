@@ -1,0 +1,24 @@
+{
+  "name": "projeto-liv-saude-trello",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server"
+  },
+  "author": "Rogerio Venancio Mota",
+  "license": "ISC",
+  "dependencies": {
+    "celebrate": "^14.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "knex": "^0.95.6",
+    "mysql": "^2.18.1",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.8"
+  },
+  "keywords": [],
+  "description": ""
+}

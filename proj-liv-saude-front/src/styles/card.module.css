@@ -1,0 +1,13 @@
+.containerCard {
+  justify-content: start;
+  padding: 5%;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 5px;
+  border-color: rgb(80, 80, 80);
+  margin: 5px;
+}
+
+.card {
+  display: flex;
+}
