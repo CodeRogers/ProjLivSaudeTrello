@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
+import editarIcon from "../assets/editar.png";
+import lixeiraIcon from "../assets/lixeira.png";
 
-import style from "../styles/card.module.css"
+import style from "../styles/card.module.css";
 
 function Card({ idLista }) {
   const [card, setCard] = useState([]);
@@ -31,7 +33,8 @@ function Card({ idLista }) {
     try {
       await api.put(`/card/${idCard}`, cardUpdate);
     } catch (err) {
-      return console.log(err);
+      alert(err.response.data.mensage);
+      return;
     }
     setCardUpdate({ titulo: "", listas_id: "" });
   }
@@ -53,45 +56,59 @@ function Card({ idLista }) {
         .filter((card) => card.listas_id === idLista)
         .map((card) => (
           <div key={card.id}>
+            <div className={style.containerCard}>
+              <div>
+                <span>{card.titulo}</span>
+                <div className={style.card}>
+                  <form>
+                    <label>Editar card: </label>
+                    <input
+                      onChange={(e) =>
+                        setCardUpdate({ ...cardUpdate, titulo: e.target.value })
+                      }
+                      type="text"
+                      required
+                      defaultValue={card.titulo}
+                    ></input>
 
-            <div class={style.containerCard}>
-              <span>{card.titulo}</span>
-              <div class={style.card}>
-                <form>
-                  <label>Titulo card: </label>
-                  <input
-                    onChange={(e) =>
-                      setCardUpdate({ ...cardUpdate, titulo: e.target.value })
-                    }
-                    type="text"
-                    required
-                    defaultValue={card.titulo}
-                  ></input>
-
-                  <label>Id da lista: </label>
-                  <input
-                    onChange={(e) =>
-                      setCardUpdate({ ...cardUpdate, listas_id: e.target.value })
-                    }
-                    type="number"
-                    required
-                    defaultValue={card.listas_id}
-                  ></input>
-
-                  <button
-                    onClick={(e) =>
-                      handleUpdate(e, card.id, card.titulo, card.listas_id)
-                    }
-                  >
-                    Editar
-                  </button>
-                </form>
+                    <div>
+                      <label>Id da lista: </label>
+                      <input
+                        onChange={(e) =>
+                          setCardUpdate({
+                            ...cardUpdate,
+                            listas_id: e.target.value,
+                          })
+                        }
+                        type="number"
+                        required
+                        defaultValue={card.listas_id}
+                      ></input>
+                    </div>
+                    <button
+                      onClick={(e) =>
+                        handleUpdate(e, card.id, card.titulo, card.listas_id)
+                      }
+                    >
+                      <img
+                        className={style.imageIcon}
+                        src={editarIcon}
+                        alt="Editar"
+                      />
+                    </button>
+                    <button
+                      onClick={(e) => handleDelete(e, card.id, card.titulo)}
+                    >
+                      <img
+                        className={style.imageIcon}
+                        src={lixeiraIcon}
+                        alt="Excluir"
+                      />
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
-
-            <button onClick={(e) => handleDelete(e, card.id, card.titulo)}>
-              Excluir
-            </button>
           </div>
         ))}
     </div>

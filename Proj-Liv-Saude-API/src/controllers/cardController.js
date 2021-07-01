@@ -34,7 +34,16 @@ module.exports = {
   async update(req, resp) {
     const { titulo, listas_id } = req.body;
     const { id } = req.params;
-    
+
+    const idList = await connectionDB("listas")
+      .select("id")
+      .where("id", listas_id)
+      .first();
+
+    if (!idList) {
+      return resp.status(400).send({ mensage: "Id da Lista inexistente" });
+    }
+
     try {
       await connectionDB("cards")
         .update({

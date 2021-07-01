@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import Card from "./card";
+import editarIcon from "../assets/editar.png";
+import lixeiraIcon from "../assets/lixeira.png";
+import directIcon from "../assets/direct.png";
 
-import style from "../styles/lista.module.css"
+import style from "../styles/lista.module.css";
 
 function Lista() {
   const [lista, setLista] = useState([]);
@@ -23,6 +26,10 @@ function Lista() {
 
   async function handleListaSubmit(e) {
     e.preventDefault();
+    if (tituloLista.trim() === "") {
+      alert("Campo vazio");
+      return;
+    }
     const listaData = {
       titulo: tituloLista,
     };
@@ -40,12 +47,12 @@ function Lista() {
     const listaData = {
       titulo: tituloLista,
     };
-    
+
     try {
       await api.put(`/lista/${idLista}`, listaData);
     } catch (err) {
       return console.log(err);
-    };
+    }
     setTituloLista("");
   }
 
@@ -62,6 +69,10 @@ function Lista() {
 
   async function handleCardSubmit(e, listaId) {
     e.preventDefault();
+    if (tituloCard.trim() === "") {
+      alert("Campo vazio");
+      return;
+    }
     const cardData = {
       titulo: tituloCard,
       listas_id: listaId,
@@ -76,18 +87,17 @@ function Lista() {
 
   return (
     <div>
-      <div class={style.navbar}>
+      <div className={style.navbar}>
         <h1>Trello</h1>
       </div>
       <div className={style.containerList}>
         {lista.map((lista) => (
           <div className={style.list} key={lista.id}>
-            
-            <span>{lista.titulo}</span>
-
-            <div>
-              <form>
-                <label>Titulo Lista: </label>
+            <div className={style.listContent}>
+              <span className={style.listaTittle}>{lista.titulo}</span>
+              <p>Id da Lista: {lista.id}</p>
+              <form className={style.headerList}>
+                <label>Editar Lista: </label>
                 <input
                   onChange={(e) => setTituloLista(e.target.value)}
                   type="text"
@@ -96,37 +106,46 @@ function Lista() {
                 ></input>
 
                 <button onClick={(e) => handleListaUpdate(e, lista.id)}>
-                  Editar
+                  <img
+                    className={style.imageIcon}
+                    src={editarIcon}
+                    alt="Editar"
+                  />
                 </button>
-                
-                <button onClick={(e) => handleDelete(e, lista.id, lista.titulo)}>
-                  Excluir
+
+                <button
+                  onClick={(e) => handleDelete(e, lista.id, lista.titulo)}
+                >
+                  <img
+                    className={style.imageIcon}
+                    src={lixeiraIcon}
+                    alt="Excluir"
+                  />
                 </button>
               </form>
-              
-              
-              
-            </div>
+              <div className={style.containerCards}>
+                <Card idLista={lista.id} />
+                <form className={style.formEnviar}>
+                  <label>Novo Card: </label>
+                  <input
+                    onChange={(e) => setTituloCard(e.target.value)}
+                    type="text"
+                    required
+                  ></input>
 
-            <div>
-              <Card idLista={lista.id} />
-              <form>
-                <label>Novo Card: </label>
-                <input
-                  onChange={(e) => setTituloCard(e.target.value)}
-                  type="text"
-                  required
-                ></input>
-
-                <button onClick={(e) => handleCardSubmit(e, lista.id)}>
-                  Inserir
-                </button>
-              </form>
+                  <button onClick={(e) => handleCardSubmit(e, lista.id)}>
+                    <img
+                      className={`${style.imageIcon} ${style.enviarButton}`}
+                      src={directIcon}
+                      alt="Inserir"
+                    />
+                  </button>
+                </form>
+              </div>
             </div>
-            
           </div>
         ))}
-        <form>
+        <form className={`${style.form} ${style.formEnviar}`}>
           <label>Nova Lista: </label>
           <input
             onChange={(e) => setTituloLista(e.target.value)}
@@ -134,7 +153,13 @@ function Lista() {
             required
           ></input>
 
-          <button onClick={(e) => handleListaSubmit(e)}>Inserir</button>
+          <button onClick={(e) => handleListaSubmit(e)}>
+            <img
+              className={`${style.imageIcon} ${style.enviarButton}`}
+              src={directIcon}
+              alt="Inserir"
+            />
+          </button>
         </form>
       </div>
     </div>
